@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏博客 - 张俊翔</title>
+    <style>
+        :root {
+            --main-bg: #0A1128;
+            --accent-blue: #1C3D5A;
+            --highlight-red: #FF4655;
+            --cyber-green: #4BFFB3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Electrolize', sans-serif;
+        }
+
+        body {
+            background: var(--main-bg);
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(12, 20, 40, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo img {
+            width: 100px;
+            height: 100px;
+            margin-left: 59px;
+        }
+
+        .nav-links {
+            line-height: 108px;
+            font-size: 24px;
+        }
+
+        .nav-links a {
+            margin-right: 50px;
+            text-decoration: none;
+            color: white;
+        }
+
+        /* 创新游戏博客区 */
+        .games-container {
+            display: flex;
+            flex-direction: column;
+            padding: 3rem;
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .game-header h1 {
+            font-size: 3rem;
+            color: var(--cyber-green);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(75, 255, 179, 0.5);
+            position: relative;
+            display: inline-block;
+        }
+
+        .game-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--highlight-red), transparent);
+        }
+
+        .game-header p {
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .game-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .game-post {
+            background: rgba(28, 61, 90, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            border: 1px solid var(--accent-blue);
+        }
+
+        .game-post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 70, 85, 0.3);
+        }
+
+        .game-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .game-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .game-post:hover .game-image img {
+            transform: scale(1.1);
+        }
+
+        .game-date {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--cyber-green);
+        }
+
+        .game-content {
+            padding: 1.5rem;
+        }
+
+        .game-content h3 {
+            color: white;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .game-content p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .game-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .game-tags {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .game-tag {
+            background: rgba(75, 255, 179, 0.1);
+            color: var(--cyber-green);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+
+        .read-more {
+            color: var(--highlight-red);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .read-more:hover {
+            color: white;
+        }
+
+        .read-more i {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .read-more:hover i {
+            transform: translateX(3px);
+        }
+
+        /* 3D悬浮效果 */
+        .game-post::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 70, 85, 0.1) 100%);
+            z-index: -1;
+            border-radius: 10px;
+            transform: translate3d(0, 0, 0);
+            transition: all 0.3s ease;
+        }
+
+        .game-post:hover::before {
+            transform: translate3d(5px, 5px, -10px);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .games-container {
+                padding: 1rem;
+            }
+
+            .game-header h1 {
+                font-size: 2rem;
+            }
+
+            .game-posts {
+                grid-template-columns: 1fr;
+            }
+
+            .logo img {
+                width: 60px;
+                height: 60px;
+                margin-left: 20px;
+            }
+
+            .nav-links {
+                line-height: normal;
+                padding: 1rem 0;
+            }
+
+            .nav-links a {
+                margin-right: 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <nav class="nav-bar">
+        <div class="logo"><img src="img/logo.png" alt="张俊翔的logo"></div>
+        <div class="nav-links">
+            <a href="index.html">首页</a>
+            <a href="2.html">作品展示</a>
+            <a href="3.html" class="active">游戏博客</a>
+            <a href="4.html">关于我</a>
+        </div>
+    </nav>
+
+    <div class="games-container">
+        <div class="game-header">
+            <h1>游戏开发日志</h1>
+            <p>记录我的游戏开发历程、技术探索和创意实现，分享游戏设计的心得与经验</p>
+        </div>
+
+        <div class="game-posts">
+            <!-- 游戏博客1 -->
+            <div class="game-post">
+                <div class="game-image">
+                    <img src="../img/game1.jpg" alt="赛博朋克风格RPG游戏">
+                    <span class="game-date">2025-03-15</span>
+                </div>
+                <div class="game-content">
+                    <h3>赛博朋克风格RPG游戏开发日志 #1</h3>
+                    <p>开始构建我的第一款赛博朋克风格RPG游戏，使用Unity引擎和C#脚本。今天完成了基础角色控制系统和简单的对话系统...</p>
+                    <div class="game-meta">
+                        <div class="game-tags">
+                            <span class="game-tag">Unity</span>
+                            <span class="game-tag">C#</span>
+                            <span class="game-tag">RPG</span>
+                        </div>
+                        <a href="#" class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 游戏博客2 -->
+            <div class="game-post">
+                <div class="game-image">
+                    <img src="../img/game2.jpg" alt="数据可视化游戏">
+                    <span class="game-date">2025-02-28</span>
+                </div>
+                <div class="game-content">
+                    <h3>将数据可视化融入游戏设计</h3>
+                    <p>探索如何将我的数据科学技能应用于游戏开发，创建一个以数据可视化为核心机制的解谜游戏...</p>
+                    <div class="game-meta">
+                        <div class="game-tags">
+                            <span class="game-tag">Python</span>
+                            <span class="game-tag">数据可视化</span>
+                            <span class="game-tag">解谜</span>
+                        </div>
+                        <a href="#" class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 游戏博客3 -->
+            <div class="game-post">
+                <div class="game-image">
+                    <img src="../img/game3.jpg" alt="AI NPC行为系统">
+                    <span class="game-date">2025-02-10</span>
+                </div>
+                <div class="game-content">
+                    <h3>基于机器学习的NPC行为系统</h3>
+                    <p>尝试使用强化学习算法为游戏NPC创建更智能的行为模式，让游戏世界更加生动和不可预测...</p>
+                    <div class="game-meta">
+                        <div class="game-tags">
+                            <span class="game-tag">机器学习</span>
+                            <span class="game-tag">AI</span>
+                            <span class="game-tag">游戏设计</span>
+                        </div>
+                        <a href="#" class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 游戏博客4 -->
+            <div class="game-post">
+                <div class="game-image">
+                    <img src="../img/game4.jpg" alt="多人在线游戏">
+                    <span class="game-date">2025-01-22</span>
+                </div>
+                <div class="game-content">
+                    <h3>构建我的第一个多人在线游戏</h3>
+                    <p>使用Node.js和Socket.io开发一个简单的多人在线游戏，学习网络同步和服务器架构的基础知识...</p>
+                    <div class="game-meta">
+                        <div class="game-tags">
+                            <span class="game-tag">Node.js</span>
+                            <span class="game-tag">Socket.io</span>
+                            <span class="game-tag">多人游戏</span>
+                        </div>
+                        <a href="#" class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 游戏博客5 -->
+            <div class="game-post">
+                <div class="game-image">
+                    <img src="../img/game5.jpg" alt="游戏数据分析">
+                    <span class="game-date">2025-01-05</span>
+                </div>
+                <div class="game-content">
+                    <h3>游戏数据分析实践</h3>
+                    <p>分析我开发的游戏中的玩家行为数据，优化游戏平衡性和用户体验，发现了一些有趣的玩家行为模式...</p>
+                    <div class="game-meta">
+                        <div class="game-tags">
+                            <span class="game-tag">数据分析</span>
+                            <span class="game-tag">Pandas</span>
+                            <span class="game-tag">用户研究</span>
+                        </div>
+                        <a href="#" class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 游戏博客6 -->
+            <div class="game-post">
+                <div class="game-image">
+                    <img src="../img/game6.jpg" alt="游戏引擎比较">
+                    <span class="game-date">2024-12-18</span>
+                </div>
+                <div class="game-content">
+                    <h3>Unity vs Unreal: 我的选择与思考</h3>
+                    <p>比较Unity和Unreal引擎的特点，分享为什么我最终选择了Unity作为主要开发工具，以及这个决定的利弊...</p>
+                    <div class="game-meta">
+                        <div class="game-tags">
+                            <span class="game-tag">Unity</span>
+                            <span class="game-tag">Unreal</span>
+                            <span class="game-tag">游戏引擎</span>
+                        </div>
+                        <a href="#" class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="https://www.douyin.com/user/20816322314" target="_blank" aria-label="抖音">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+                <a href="javascript:void(0);" onclick="showWechatQR()" aria-label="微信">
+                    <i class="fab fa-weixin"></i>
+                </a>
+                <a href="tencent://message/?uin=1751723931&Menu=yes" target="_blank" aria-label="QQ">
+                    <i class="fab fa-qq"></i>
+                </a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 张俊翔. 保留所有权利。
+            </div>
+        </div>
+    </footer>
+
+    <div id="wechatQR" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); 
+         background: rgba(0,0,0,0.8); padding:20px; border-radius:10px; z-index:1000; text-align:center;">
+        <p style="color:white; margin-bottom:10px;">扫码添加我的微信</p>
+        <img src="../img/wechat-qr.jpg" alt="微信二维码" style="width:200px; height:200px; display:block; margin:0 auto;">
+        <button onclick="document.getElementById('wechatQR').style.display='none'" 
+                style="margin-top:15px; padding:5px 15px; background:var(--highlight-red); color:white; border:none; border-radius:5px;">
+            关闭
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80 },
+                color: { value: '#1C3D5A' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5 },
+                size: { value: 3 },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' }
+                }
+            }
+        });
+
+        function showWechatQR() {
+            document.getElementById('wechatQR').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
