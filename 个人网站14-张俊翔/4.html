@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我 - 张俊翔</title>
+    <style>
+        :root {
+            --main-bg: #0A1128;
+            --accent-blue: #1C3D5A;
+            --highlight-red: #FF4655;
+            --cyber-green: #4BFFB3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Electrolize', sans-serif;
+        }
+
+        body {
+            background: var(--main-bg);
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(12, 20, 40, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo img {
+            width: 100px;
+            height: 100px;
+            margin-left: 59px;
+        }
+
+        .nav-links {
+            line-height: 108px;
+            font-size: 24px;
+        }
+
+        .nav-links a {
+            margin-right: 50px;
+            text-decoration: none;
+            color: white;
+        }
+
+        /* 创新关于我页面 */
+        .about-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 3rem;
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .about-header h1 {
+            font-size: 3rem;
+            color: var(--cyber-green);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(75, 255, 179, 0.5);
+            position: relative;
+            display: inline-block;
+        }
+
+        .about-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--highlight-red), transparent);
+        }
+
+        .about-header p {
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .about-card {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            background: rgba(28, 61, 90, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid var(--accent-blue);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 70, 85, 0.3);
+        }
+
+        .about-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--highlight-red), var(--cyber-green));
+        }
+
+        .about-card h2 {
+            color: var(--cyber-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .about-card h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50%;
+            height: 2px;
+            background: var(--highlight-red);
+        }
+
+        .about-card p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .skill {
+            background: rgba(75, 255, 179, 0.1);
+            color: var(--cyber-green);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(75, 255, 179, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .skill:hover {
+            background: rgba(75, 255, 179, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin-top: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 2px;
+            background: var(--highlight-red);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: -2.3rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--cyber-green);
+            border: 2px solid var(--highlight-red);
+        }
+
+        .timeline-date {
+            color: var(--cyber-green);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content h3 {
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            color: var(--highlight-red);
+            font-size: 1.2rem;
+            width: 30px;
+            text-align: center;
+        }
+
+        .contact-text {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .contact-text a {
+            color: var(--cyber-green);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .contact-text a:hover {
+            color: var(--highlight-red);
+            text-decoration: underline;
+        }
+
+        /* 3D悬浮效果 */
+        .about-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 70, 85, 0.1) 100%);
+            z-index: -1;
+            border-radius: 15px;
+            transform: translate3d(0, 0, 0);
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover::after {
+            transform: translate3d(5px, 5px, -10px);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .about-container {
+                padding: 1rem;
+            }
+
+            .about-header h1 {
+                font-size: 2rem;
+            }
+
+            .about-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .about-card {
+                min-width: 100%;
+            }
+
+            .logo img {
+                width: 60px;
+                height: 60px;
+                margin-left: 20px;
+            }
+
+            .nav-links {
+                line-height: normal;
+                padding: 1rem 0;
+            }
+
+            .nav-links a {
+                margin-right: 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <nav class="nav-bar">
+        <div class="logo"><img src="img/logo.png" alt="张俊翔的logo"></div>
+        <div class="nav-links">
+            <a href="1.html">首页</a>
+            <a href="2.html">作品展示</a>
+            <a href="3.html">游戏博客</a>
+            <a href="4.html" class="active">关于我</a>
+        </div>
+    </nav>
+
+    <div class="about-container">
+        <div class="about-header">
+            <h1>关于张俊翔</h1>
+            <p>数据科学家 | 游戏爱好者 | 技术爱好者</p>
+        </div>
+
+        <div class="about-content">
+            <div class="about-card">
+                <h2>个人简介</h2>
+                <p>你好！我是张俊翔，一名热衷于数据科学和游戏开发的技术爱好者。我毕业于杭州市中策钱塘学校，主修数据科学与大数据技术专业。</p>
+                <p>我热爱将复杂的数据转化为直观的洞察，同时也沉迷于游戏和开发的创造性过程。我相信技术与艺术的结合能够创造出令人惊叹的作品。</p>
+                <p>在我的空闲时间，我喜欢研究新技术、开发个人项目，当然也少不了玩各种类型的游戏来寻找灵感。</p>
+                
+                <h2 style="margin-top: 2rem;">技能专长</h2>
+                <div class="skills">
+                    <span class="skill">Python</span>
+					<span class="skill">Pandas</span>
+                    <span class="skill">SQL</span>
+                    <span class="skill">机器学习</span>
+                    <span class="skill">数据可视化</span>
+                    <span class="skill">数据分析</span>
+                </div>
+            </div>
+
+            <div class="about-card">
+                <h2>教育经历</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">2022 - 2025</div>
+                        <div class="timeline-content">
+                            <h3>杭州市中策钱塘学校</h3>
+                            <p>数据科学与大数据技术专业</p>
+                            <p>主修课程：Python编程、数据结构与算法、数据库系统、机器学习、大数据处理技术、数据可视化</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">2021</div>
+                        <div class="timeline-content">
+                            <h3>数据科学入门</h3>
+                            <p>学习Python和基础数据分析技术，完成多个小型数据分析项目</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 style="margin-top: 2rem;">联系我</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="contact-text">邮箱: <a href="mailto:junxiang@example.com">junxiang@example.com</a></div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div class="contact-text">电话: <a href="tel:+8613812345678">+86 138 1234 5678</a></div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fab fa-github"></i></div>
+                        <div class="contact-text">GitHub: <a href="https://github.com/junxiang" target="_blank">github.com/junxiang</a></div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fab fa-linkedin"></i></div>
+                        <div class="contact-text">LinkedIn: <a href="https://linkedin.com/in/junxiang" target="_blank">linkedin.com/in/junxiang</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="https://www.douyin.com/user/20816322314" target="_blank" aria-label="抖音">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+                <a href="javascript:void(0);" onclick="showWechatQR()" aria-label="微信">
+                    <i class="fab fa-weixin"></i>
+                </a>
+                <a href="tencent://message/?uin=1751723931&Menu=yes" target="_blank" aria-label="QQ">
+                    <i class="fab fa-qq"></i>
+                </a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 张俊翔. 保留所有权利。
+            </div>
+        </div>
+    </footer>
+
+    <div id="wechatQR" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); 
+         background: rgba(0,0,0,0.8); padding:20px; border-radius:10px; z-index:1000; text-align:center;">
+        <p style="color:white; margin-bottom:10px;">扫码添加我的微信</p>
+        <img src="../img/wechat-qr.jpg" alt="微信二维码" style="width:200px; height:200px; display:block; margin:0 auto;">
+        <button onclick="document.getElementById('wechatQR').style.display='none'" 
+                style="margin-top:15px; padding:5px 15px; background:var(--highlight-red); color:white; border:none; border-radius:5px;">
+            关闭
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80 },
+                color: { value: '#1C3D5A' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5 },
+                size: { value: 3 },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' }
+                }
+            }
+        });
+
+        function showWechatQR() {
+            document.getElementById('wechatQR').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
