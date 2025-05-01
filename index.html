@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>展示</title>
+    <style>
+        :root {
+            --main-bg: #0A1128;
+            --accent-blue: #1C3D5A;
+            --highlight-red: #FF4655;
+            --cyber-green: #4BFFB3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Electrolize', sans-serif;
+        }
+
+        body {
+            background: var(--main-bg);
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 动态粒子背景 ai*/
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* 导航栏 */
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(12, 20, 40, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-family: 'Bauhaus93', sans-serif;
+            color: var(--highlight-red);
+            font-size: 2rem;
+            text-shadow: 0 0 15px rgba(255,70,85,0.5);
+        }
+        .logo img{
+            width: 100px;
+            height: 100px;
+            margin-left: 59px;
+        }
+        .nav-links{
+            line-height: 108px;
+            
+            font-size: 24px;
+        }
+        .nav-links a{
+            margin-right: 50px;
+            text-decoration: none;
+            color: rgba(255,255,255,1.00);
+        }
+
+        /* 身份卡片 */
+        .bigcard{
+            display: flex;
+            flex-wrap: wrap;
+            align-content: space-around;
+            flex: 1;
+        }
+        .identity-card {
+            width: 300px;
+            height: 400px;
+            margin: 3rem auto;
+            perspective: 1000px;
+        }
+        .rank-badge img{
+            width: 230px;
+            height: 220px;
+            margin-top: 20px;
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .identity-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border: 2px solid var(--accent-blue);
+            border-radius: 15px;
+            padding: 2rem;
+            background: linear-gradient(45deg, #0A1A2B, #1A365D);
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        ul{
+            flex-wrap: wrap;
+            flex-direction: column;
+            display: flex;
+            justify-content: space-between;
+        }
+        li{
+            list-style-image: url(img/R-C.png);
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background: rgba(12, 20, 40, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid var(--accent-blue);
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            margin: 0 15px;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--highlight-red);
+        }
+        
+        .copyright {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .identity-card {
+                width: 90%;
+                height: 500px;
+            }
+            
+            .nav-links {
+                line-height: normal;
+                padding: 1rem 0;
+            }
+            
+            .nav-links a {
+                margin-right: 20px;
+                font-size: 1rem;
+            }
+            
+            .logo img {
+                width: 60px;
+                height: 60px;
+                margin-left: 20px;
+            }
+        }
+    </style>
+    <!-- 字体引入 -->
+    <link href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap" rel="stylesheet">
+    <!-- 字体图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+	<audio id="hoverSound" preload="auto">
+        <source src="sounds/hover.mp3" type="audio/mpeg">
+    </audio>
+    <!-- 粒子背景 -->
+    <div id="particles-js"></div>
+
+    <!-- 导航栏 -->
+    <nav class="nav-bar">
+        <div class="logo"><img src="img/logo.png" alt="张俊翔的logo"></div>
+        <div class="nav-links">
+             <a href="index.html" class="active">首页</a>
+            <a href="2.html">作品展示</a>
+            <a href="3.html" >游戏博客</a>
+            <a href="4.html">关于我</a>
+        </div>
+    </nav>
+
+    <!-- 3D身份卡 -->
+    <div class="bigcard" onmouseenter="playHoverSound()">
+        <div class="identity-card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <h2>职业背景</h2>
+                    <p>数据科学与大数据技术</p>
+                    <div class="rank-badge">
+                        <img src="img/card1.png" alt="大数据">
+                    </div>
+                </div>
+                <div class="card-back">
+                    <h3>什么是大数据？</h3>
+                    <ul>
+                        <li>大数据专业是培养具备大数据处理、分析与应用能力的复合型人才，聚焦数据采集、存储、清洗、挖掘及可视化技术。核心课程包括Python/Java编程、Hadoop/Spark框架、机器学习、数据库管理等，结合统计学与算法优化。就业方向涵盖金融、医疗、电商等领域的数据分析师、工程师等岗位，适应数字化时代海量数据处理的迫切需求，前景广阔。强调实战能力，通常配备项目实训与企业合作，培养解决实际问题的技能。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="identity-card" onmouseenter="playHoverSound()">
+            <div class="card-inner">
+                <div class="card-front">
+                    <h2>技术专长</h2>
+                    <p>数据分析与可视化</p>
+                    <div class="rank-badge">
+                        <img src="img/card2.png" alt="数据分析">
+                    </div>
+                </div>
+                <div class="card-back">
+                    <h3>核心技能</h3>
+                    <ul>
+                        <li>精通Python数据分析库(Pandas, NumPy, SciPy)</li>
+                        <li>熟练使用Tableau和Power BI进行数据可视化</li>
+                        <li>掌握SQL数据库管理与复杂查询</li>
+                        <li>熟悉机器学习算法</li>
+                        <li>具备Hadoop/Spark大数据处理平台实战经验</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="identity-card" onmouseenter="playHoverSound()">
+            <div class="card-inner">
+                <div class="card-front">
+                    <h2>毕业学校</h2>
+                    <p>杭州市中策钱塘学校</p>
+                    <div class="rank-badge">
+                        <img src="img/card3.png" alt="大数据">
+                    </div>
+                </div>
+                <div class="card-back">
+                    <h3>学校简介</h3>
+                    <ul>
+                        <li>位于杭州市钱塘区新湾街道品优街，地处杭州都市区东部门户，南邻江东大道，西临钱塘江与宝龙商业圈，东接苏台高速。</li>
+                       
+                        <li>电子与信息类：设有大数据技术应用、物联网技术应用等专业，与区域内芯片、物联网、大数据等前沿领域的企业需求相匹配。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 页脚 -->
+    <!-- 页脚 -->
+<footer>
+    <div class="footer-content">
+        <div class="social-links">
+            <!-- 抖音链接 -->
+            <a href="https://www.douyin.com/user/20816322314" 
+               target="_blank" 
+               aria-label="抖音">
+                <i class="fab fa-tiktok"></i>
+            </a>
+            
+            <!-- 微信二维码弹窗 -->
+            <a href="javascript:void(0);" 
+               onclick="showWechatQR()" 
+               aria-label="微信">
+                <i class="fab fa-weixin"></i>
+            </a>
+            
+            <!-- QQ链接 -->
+            <a href="tencent://message/?uin=1751723931&Menu=yes" 
+               target="_blank" 
+               aria-label="QQ">
+                <i class="fab fa-qq"></i>
+            </a>
+        </div>
+        <div class="copyright">
+            &copy; 2025 张俊翔. 保留所有权利。
+        </div>
+    </div>
+</footer>
+
+<!-- 微信二维码弹窗内容 -->
+<div id="wechatQR" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); 
+     background: rgba(0,0,0,0.8); padding:20px; border-radius:10px; z-index:1000; text-align:center;">
+    <p style="color:white; margin-bottom:10px;">扫码添加我的微信</p>
+    <img src="img\wechat-qr.jpg" alt="微信二维码" style="width:200px; height:200px; display:block; margin:0 auto;">
+    <button onclick="document.getElementById('wechatQR').style.display='none'" 
+            style="margin-top:15px; padding:5px 15px; background:var(--highlight-red); color:white; border:none; border-radius:5px;">
+        关闭
+    </button>
+</div>
+
+<script>
+
+	function playHoverSound() {
+            const hoverSound = document.getElementById('hoverSound');
+			hoverSound.volume = 0.3;
+            hoverSound.currentTime = 0; // 重置音频到开始
+            hoverSound.play().catch(e => console.log("自动播放被阻止:", e));
+        }
+
+       
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mouseenter', playHoverSound);
+        });
+	
+	
+function showWechatQR() {
+    document.getElementById('wechatQR').style.display = 'block';
+}
+</script>
+
+    <!-- 粒子效果库 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // 初始化粒子背景
+        particlesJS('particles-js', {  // 在id为'particles-js'的DOM元素上初始化粒子效果
+    particles: {  // 粒子配置
+        number: { value: 80 },  // 粒子数量为80个
+        color: { value: '#1C3D5A' },  // 粒子颜色为深蓝色（十六进制颜色码）
+        shape: { type: 'circle' },  // 粒子形状为圆形
+        opacity: { value: 0.5 },  // 粒子透明度为0.5（半透明）
+        size: { value: 3 },  // 粒子大小为3像素
+        move: {  // 粒子运动配置
+            enable: true,  // 启用粒子运动
+            speed: 2,  // 运动速度为2
+            direction: 'none',  // 无固定方向
+            random: false,  // 不随机改变方向
+            straight: false,  // 不直线运动
+            out_mode: 'out',  // 粒子移出画布时的行为是"out"（离开画布）
+        }
+    },
+    interactivity: {  // 交互配置
+        detect_on: 'canvas',  // 在canvas上检测交互
+        events: {  // 交互事件
+            onhover: { enable: true, mode: 'repulse' },  // 鼠标悬停时排斥粒子
+            onclick: { enable: true, mode: 'push' }  // 点击时添加新粒子
+        }
+    }
+});
+    </script>
+</body>
+</html>
